@@ -1,0 +1,16 @@
+---
+Checks: >
+  -*,
+  bugprone-*,
+  cppcoreguidelines-*,
+  google-*,
+  modernize-*,
+  performance-*,
+  readability-*
+
+WarningsAsErrors: ""
+HeaderFilterRegex: ".*"
+
+# Tells clang-tidy to use your .clang-format file when applying automated fixes
+FormatStyle: "file"
+---

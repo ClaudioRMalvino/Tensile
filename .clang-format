@@ -1,0 +1,16 @@
+---
+
+Language: Cpp
+BasedOnStyle: Google
+
+# Override the Google default of 2 spaces
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# Prevent aggressive wrapping caused by the wider indentation
+ColumnLimit: 120
+
+# Google aligns to the type (e.g., int* ptr). Making it explicit:
+PointerAlignment: Left
+---
