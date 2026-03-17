@@ -1,4 +1,4 @@
-name: CI
+name: Tensile
 
 on:
   push:
@@ -25,22 +25,18 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y ninja-build
 
-    - name: Set Sanitizer Flags
-      run: |
-        if [ "${{ matrix.sanitizer }}" == "asan" ]; then
-          echo "SAN_FLAGS=-DCMAKE_CXX_FLAGS='-fsanitize=address -fno-omit-frame-pointer' -DCMAKE_EXE_LINKER_FLAGS='-fsanitize=address'" >> $GITHUB_ENV
-        elif [ "${{ matrix.sanitizer }}" == "ubsan" ]; then
-          echo "SAN_FLAGS=-DCMAKE_CXX_FLAGS='-fsanitize=undefined' -DCMAKE_EXE_LINKER_FLAGS='-fsanitize=undefined'" >> $GITHUB_ENV
-        else
-          echo "SAN_FLAGS=" >> $GITHUB_ENV
-        fi
-
     - name: Configure CMake
       env:
         CXX: ${{ matrix.compiler.cxx }}
         CC: ${{ matrix.compiler.c }}
       run: |
-        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ env.SAN_FLAGS }}
+        if [ "${{ matrix.sanitizer }}" == "asan" ]; then
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-fsanitize=address -fno-omit-frame-pointer" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address"
+        elif [ "${{ matrix.sanitizer }}" == "ubsan" ]; then
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-fsanitize=undefined" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=undefined"
+        else
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+        fi
 
     - name: Build
       run: cmake --build build
@@ -50,4 +46,4 @@ jobs:
       run: ctest --output-on-failure
 
     - name: Run Benchmarks
-      run: ./build/benchmarks/initBenchmark
+      run: ./build/benchmarks/tensile_benchmarks
