@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/InitTest.dir/link.d CMakeFiles/InitTest.dir/init_test.cpp.o -o InitTest  ../lib/libgtest_main.a ../lib/libgtest.a

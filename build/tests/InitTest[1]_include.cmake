@@ -1,5 +1,0 @@
-if(EXISTS "/home/claudio/Projects/cpp/Tensile/build/tests/InitTest[1]_tests.cmake")
-  include("/home/claudio/Projects/cpp/Tensile/build/tests/InitTest[1]_tests.cmake")
-else()
-  add_test(InitTest_NOT_BUILT InitTest_NOT_BUILT)
-endif()
