@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - { cxx: g++, c: gcc }
+          - { cxx: clang++, c: clang }
+        sanitizer: [none, asan, ubsan]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ninja-build
+
+    - name: Set Sanitizer Flags
+      run: |
+        if [ "${{ matrix.sanitizer }}" == "asan" ]; then
+          echo "SAN_FLAGS=-DCMAKE_CXX_FLAGS='-fsanitize=address -fno-omit-frame-pointer' -DCMAKE_EXE_LINKER_FLAGS='-fsanitize=address'" >> $GITHUB_ENV
+        elif [ "${{ matrix.sanitizer }}" == "ubsan" ]; then
+          echo "SAN_FLAGS=-DCMAKE_CXX_FLAGS='-fsanitize=undefined' -DCMAKE_EXE_LINKER_FLAGS='-fsanitize=undefined'" >> $GITHUB_ENV
+        else
+          echo "SAN_FLAGS=" >> $GITHUB_ENV
+        fi
+
+    - name: Configure CMake
+      env:
+        CXX: ${{ matrix.compiler.cxx }}
+        CC: ${{ matrix.compiler.c }}
+      run: |
+        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ env.SAN_FLAGS }}
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Run Tests
+      working-directory: build
+      run: ctest --output-on-failure
+
+    - name: Run Benchmarks
+      run: ./build/benchmarks/initBenchmark
