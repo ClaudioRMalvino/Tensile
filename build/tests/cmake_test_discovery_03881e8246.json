@@ -1,0 +1,17 @@
+{
+  "tests": 1,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "INITtest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "InitialTest",
+          "file": "\/home\/claudio\/Projects\/cpp\/Tensile\/tests\/init_test.cpp",
+          "line": 3
+        }
+      ]
+    }
+  ]
+}

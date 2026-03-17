@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/initBenchmark.dir/link.d CMakeFiles/initBenchmark.dir/init_benchmark.cpp.o -o initBenchmark  ../_deps/benchmark-build/src/libbenchmark.a -lrt

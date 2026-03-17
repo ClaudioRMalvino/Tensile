@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/usr/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/claudio/Projects/cpp/Tensile/build/CMakeFiles/fc-stamp/benchmark/download-benchmark.cmake;COMMAND;/usr/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/claudio/Projects/cpp/Tensile/build/CMakeFiles/fc-stamp/benchmark/verify-benchmark.cmake;COMMAND;/usr/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/claudio/Projects/cpp/Tensile/build/CMakeFiles/fc-stamp/benchmark/extract-benchmark.cmake
+source_dir=/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src
+work_dir=/home/claudio/Projects/cpp/Tensile/build/_deps
+url(s)=https://github.com/google/benchmark/archive/refs/tags/v1.9.5.zip
+hash=
+      no_extract=
+

@@ -1,0 +1,158 @@
+[
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -DBENCHMARK_VERSION=\\\"v1.9.5\\\" -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/benchmark.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/benchmark.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/benchmark_api_internal.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_api_internal.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_api_internal.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/benchmark_api_internal.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/benchmark_name.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_name.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_name.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/benchmark_name.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/benchmark_register.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_register.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_register.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/benchmark_register.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/benchmark_runner.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_runner.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_runner.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/benchmark_runner.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/check.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/check.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/check.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/check.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/colorprint.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/colorprint.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/colorprint.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/colorprint.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/commandlineflags.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/commandlineflags.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/commandlineflags.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/commandlineflags.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/complexity.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/complexity.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/complexity.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/complexity.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/console_reporter.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/console_reporter.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/console_reporter.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/console_reporter.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/counter.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/counter.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/counter.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/counter.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/csv_reporter.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/csv_reporter.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/csv_reporter.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/csv_reporter.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/json_reporter.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/json_reporter.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/json_reporter.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/json_reporter.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/perf_counters.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/perf_counters.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/perf_counters.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/perf_counters.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/reporter.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/reporter.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/reporter.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/reporter.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/statistics.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/statistics.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/statistics.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/statistics.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/string_util.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/string_util.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/string_util.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/string_util.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/sysinfo.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/sysinfo.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/sysinfo.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/sysinfo.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_HAS_PTHREAD_AFFINITY -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark.dir/timers.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/timers.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/timers.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark.dir/timers.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-build/src",
+  "command": "/usr/bin/c++ -DBENCHMARK_STATIC_DEFINE -DHAVE_PTHREAD_AFFINITY -DHAVE_STD_REGEX -DHAVE_STEADY_CLOCK -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src   -Wall  -Wextra  -Wshadow  -Wfloat-equal  -Wold-style-cast  -Wconversion  -Wformat=2  -Werror  -Wsuggest-override  -pedantic  -pedantic-errors  -fstrict-aliasing  -Wno-deprecated-declarations  -Wno-deprecated  -Wstrict-aliasing -O3 -DNDEBUG -std=c++17 -fvisibility=hidden -fvisibility-inlines-hidden -o CMakeFiles/benchmark_main.dir/benchmark_main.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_main.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/src/benchmark_main.cc",
+  "output": "_deps/benchmark-build/src/CMakeFiles/benchmark_main.dir/benchmark_main.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-build/googlemock",
+  "command": "/usr/bin/c++  -I/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googlemock/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googlemock -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/include -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest -O3 -DNDEBUG -std=c++23 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googlemock/src/gmock-all.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googlemock/src/gmock-all.cc",
+  "output": "_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-build/googlemock",
+  "command": "/usr/bin/c++  -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googlemock/include -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googlemock -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/include -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest -O3 -DNDEBUG -std=c++23 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googlemock/src/gmock_main.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googlemock/src/gmock_main.cc",
+  "output": "_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-build/googletest",
+  "command": "/usr/bin/c++  -I/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/include -I/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest -O3 -DNDEBUG -std=c++23 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/src/gtest-all.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/src/gtest-all.cc",
+  "output": "_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-build/googletest",
+  "command": "/usr/bin/c++  -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/include -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest -O3 -DNDEBUG -std=c++23 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/src/gtest_main.cc",
+  "file": "/home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/src/gtest_main.cc",
+  "output": "_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/tests",
+  "command": "/usr/bin/c++  -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest/include -isystem /home/claudio/Projects/cpp/Tensile/build/_deps/googletest-src/googletest -O3 -DNDEBUG -std=gnu++23 -o CMakeFiles/InitTest.dir/init_test.cpp.o -c /home/claudio/Projects/cpp/Tensile/tests/init_test.cpp",
+  "file": "/home/claudio/Projects/cpp/Tensile/tests/init_test.cpp",
+  "output": "tests/CMakeFiles/InitTest.dir/init_test.cpp.o"
+},
+{
+  "directory": "/home/claudio/Projects/cpp/Tensile/build/benchmarks",
+  "command": "/usr/bin/c++ -DBENCHMARK_STATIC_DEFINE -I/home/claudio/Projects/cpp/Tensile/build/_deps/benchmark-src/include -O3 -DNDEBUG -std=gnu++23 -o CMakeFiles/initBenchmark.dir/init_benchmark.cpp.o -c /home/claudio/Projects/cpp/Tensile/benchmarks/init_benchmark.cpp",
+  "file": "/home/claudio/Projects/cpp/Tensile/benchmarks/init_benchmark.cpp",
+  "output": "benchmarks/CMakeFiles/initBenchmark.dir/init_benchmark.cpp.o"
+}
+]
