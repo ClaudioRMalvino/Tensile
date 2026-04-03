@@ -1,3 +1,3 @@
-add_executable(initBenchmark init_benchmark.cpp)
+add_executable(tensile_benchmarks benchmarks.cpp)
 
-target_link_libraries(initBenchmark benchmark::benchmark)
+target_link_libraries(tensile_benchmarks PRIVATE benchmark::benchmark tensile::tensile)

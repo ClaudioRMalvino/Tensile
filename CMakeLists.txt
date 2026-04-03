@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(Tensile VERSION 0.1.0 LANGUAGES CXX)
 
+# Dictates the C++ standard
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -31,6 +32,16 @@ set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googlebenchmark)
 
 enable_testing()
+
+add_library(tensile INTERFACE)
+add_library(tensile::tensile ALIAS tensile)
+
+target_include_directories(tensile INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+target_compile_features(tensile INTERFACE cxx_std_23)
 
 add_subdirectory(tests)
 add_subdirectory(benchmarks)
