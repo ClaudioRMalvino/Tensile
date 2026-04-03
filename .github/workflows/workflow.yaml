@@ -8,22 +8,33 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, macos-latest]
         compiler:
           - { cxx: g++, c: gcc }
           - { cxx: clang++, c: clang }
         sanitizer: [none, asan, ubsan]
+        exclude: 
+          - os: macos-latest
+            compiler: {cxx: g++, c: gcc}
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies
+    - name: Install dependencies (Ubunutu)
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update
         sudo apt-get install -y ninja-build
+
+    - name: Install dependencies (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        brew install ninja
+
 
     - name: Configure CMake
       env:
