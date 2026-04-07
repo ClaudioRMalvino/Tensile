@@ -46,3 +46,4 @@ plots/
 *.dwo
 
 build/
+cmake-build-debug/
