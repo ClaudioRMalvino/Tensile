@@ -27,7 +27,7 @@ class MemStorage {
 
     // Default constructor with provided size
     explicit MemStorage(const std::size_t size) : m_size{size} {
-        assert(m_size >= 1);
+        assert(m_size > 0);
         alloc(m_size);
     }
 
