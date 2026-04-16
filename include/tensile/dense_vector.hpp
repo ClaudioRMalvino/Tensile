@@ -2,7 +2,7 @@
 
 #pragma once
 #include <cmath>
-#include <ostream>
+#include <format>
 #include <span>
 #include "core/memory_alloc.hpp"
 
@@ -63,9 +63,15 @@ public:
      * ------------------------------------
      * */
 
-    auto pow(const int exponent) -> DenseVector& {
+    auto pow(const int exponent) noexcept -> DenseVector& {
         assert(exponent >= 0);
 
+        if (exponent == 0) {
+            for (size_t i{0}; i < this->size(); ++i) {
+                this->data()[i] = 1;
+            }
+            return *this;
+        }
         if (exponent == 1) {
             return *this;
         }
@@ -78,8 +84,9 @@ public:
         }
         return *this;
     }
+
     auto pow(const int exponent) const -> DenseVector<T> {
-        assert(exponent >= 0);
+        assert(exponent > 0);
         DenseVector result(*this);
 
         if (exponent == 1) {
@@ -88,11 +95,12 @@ public:
         for (size_t i{0}; i < this->size(); ++i) {
             T val {result->data()[i]};
             for (int exp{0}; exp < exponent - 1; ++exp) {
-                result->data()[i] *= val;
+                result.data()[i] *= val;
             }
         }
         return result;
     }
+
     //-----------------------------
     // Scalar operations
     // ----------------------------
@@ -407,3 +415,19 @@ public:
     }
 };
 
+// -------------------------------------------------
+// DenseVector Free Functions
+// -------------------------------------------------
+
+/**
+ * @brief Out-of-place exponentiation
+ * @param vec The vector to copy and exponentiate
+ * @param exponent Integer power to raise elements to
+ * @return A new DenseVector containing the exponentiated values
+ */
+template <typename T, std::size_t Alignment>
+[[nodiscard]] auto pow(const DenseVector<T, Alignment>& vec, const int exponent) -> DenseVector<T, Alignment> {
+    DenseVector<T, Alignment> result(vec);
+    result.pow(exponent);
+    return result;
+}

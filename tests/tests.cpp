@@ -41,15 +41,16 @@ TEST_F(DenseVectorTest, ElementRetrievalandAssignmentBoundsChecking) {
 
 TEST_F(DenseVectorTest, PowFunctionWorks) {
     DenseVector<double> expected {1.0, 4.0, 9.0, 16.0, 25.0};
-    DenseVector<double> result = vec.pow(2);
-    vec.pow(1);
+    DenseVector<double> expected2 {1.0, 1.0, 1.0, 1.0, 1.0};
+
+    DenseVector<double> result = pow(vec, 1);
+    DenseVector<double> result2 = pow(vec, 0);
+    vec.pow(2);
+
     for (size_t i{0}; i < vec.size(); ++i) {
-        std::cout << "result = " << result[i] << '\n';
-        std::cout << "vec = " << vec[i] << '\n';
-    }
-    for (size_t i{0}; i < vec.size(); ++i) {
-        ASSERT_EQ(vec[i], vec[i]);
-        ASSERT_EQ(result[i], expected[i]);
+        ASSERT_EQ(result[i], vec2[i]);
+        ASSERT_EQ(vec[i], expected[i]);
+        ASSERT_EQ(result2[i], expected2[i]);
     }
 
 }
@@ -127,11 +128,7 @@ TEST_F(DenseVectorTest, VectorMultiplicationWorks) {
     DenseVector<double> result = vec * vec2;
     DenseVector<double> result2 = vec * vec3;
     vec *= vec2;
-    for (size_t i{0}; i < vec.size(); ++i) {
-        std::cout << "result = " << result[i] << '\n';
-        std::cout << "result2 = " << result2[i] << '\n';
-        std::cout << "self vec = " << vec[i] << '\n';
-    }
+
     for (size_t i{0}; i < vec.size(); ++i) {
         ASSERT_EQ(result[i], expected[i]);
         ASSERT_EQ(result2[i], expected[i]);
