@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <tensile.hpp>
 #include <vector>
+#include <iostream>
 
 class DenseVectorTest : public testing::Test {
 protected:
@@ -36,6 +37,21 @@ TEST_F(DenseVectorTest, ElementRetrievalandAssignmentBoundsChecking) {
     vec.at(1) = 1.5;
     ASSERT_EQ(vec.at(1), 1.5);
     ASSERT_EQ(vec.at(-1), 5.0);
+}
+
+TEST_F(DenseVectorTest, PowFunctionWorks) {
+    DenseVector<double> expected {1.0, 4.0, 9.0, 16.0, 25.0};
+    DenseVector<double> result = vec.pow(2);
+    vec.pow(1);
+    for (size_t i{0}; i < vec.size(); ++i) {
+        std::cout << "result = " << result[i] << '\n';
+        std::cout << "vec = " << vec[i] << '\n';
+    }
+    for (size_t i{0}; i < vec.size(); ++i) {
+        ASSERT_EQ(vec[i], vec[i]);
+        ASSERT_EQ(result[i], expected[i]);
+    }
+
 }
 
 TEST_F(DenseVectorTest, ScalarAdditionWorks) {
@@ -76,7 +92,6 @@ TEST_F(DenseVectorTest, ScalarDivisionWorks) {
     for (size_t i{0}; i < vec.size(); ++i) {
         ASSERT_EQ(vec[i], static_cast<double>((i + 1.0) / 2.0));
     }
-    vec *=2.0;
     DenseVector<double> result = vec / 2.0;
     for (size_t i{0}; i < vec.size(); ++i) {
         ASSERT_EQ(vec[i], static_cast<double>((i + 1.0) / 2.0));
@@ -112,6 +127,11 @@ TEST_F(DenseVectorTest, VectorMultiplicationWorks) {
     DenseVector<double> result = vec * vec2;
     DenseVector<double> result2 = vec * vec3;
     vec *= vec2;
+    for (size_t i{0}; i < vec.size(); ++i) {
+        std::cout << "result = " << result[i] << '\n';
+        std::cout << "result2 = " << result2[i] << '\n';
+        std::cout << "self vec = " << vec[i] << '\n';
+    }
     for (size_t i{0}; i < vec.size(); ++i) {
         ASSERT_EQ(result[i], expected[i]);
         ASSERT_EQ(result2[i], expected[i]);

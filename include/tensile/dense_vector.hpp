@@ -3,6 +3,7 @@
 #pragma once
 #include <cmath>
 #include <ostream>
+#include <span>
 #include "core/memory_alloc.hpp"
 
 template<typename T, std::size_t Alignment = 64>
@@ -40,7 +41,7 @@ public:
         if (index < 0 && index + static_cast<int>(this->size()) >= 0) {
             return this->data()[this->size() + index];
         }
-        if (index >= static_cast<int>(this->size()) || index + static_cast<int>(this->size()) < 0 )) {
+        if (index >= static_cast<int>(this->size()) || index + static_cast<int>(this->size()) < 0 ) {
             throw std::out_of_range(std::format(
                 "Index {}, is out of range for DenseVector of size {}", index, this->size()
                 ));
@@ -57,6 +58,41 @@ public:
         return this->data()[index];
     }
 
+    /** -----------------------------------
+     * Arithmetic operator overloads
+     * ------------------------------------
+     * */
+
+    auto pow(const int exponent) -> DenseVector& {
+        assert(exponent >= 0);
+
+        if (exponent == 1) {
+            return *this;
+        }
+
+        for (size_t i{0}; i < this->size(); ++i) {
+            T val {this->data()[i]};
+            for (int exp{0}; exp < exponent - 1; ++exp) {
+                this->data()[i] *= val;
+            }
+        }
+        return *this;
+    }
+    auto pow(const int exponent) const -> DenseVector<T> {
+        assert(exponent >= 0);
+        DenseVector result(*this);
+
+        if (exponent == 1) {
+            return result;
+        }
+        for (size_t i{0}; i < this->size(); ++i) {
+            T val {result->data()[i]};
+            for (int exp{0}; exp < exponent - 1; ++exp) {
+                result->data()[i] *= val;
+            }
+        }
+        return result;
+    }
     //-----------------------------
     // Scalar operations
     // ----------------------------
@@ -179,7 +215,7 @@ public:
     * @return *this
     */
     auto operator-=(std::span<const T> other) -> DenseVector& {
-       assert(this->size() == other.size() && "Size mismatch for vector-vector summation");
+       assert(this->size() == other.size() && "Size mismatch for vector-vector subtraction");
 
         for (size_t i{0}; i < this->size(); ++i) {
             this->data()[i] -= other[i];
@@ -194,13 +230,7 @@ public:
     * @return *this
     */
     auto operator*=(std::span<const T> other) -> DenseVector& {
-        if (this->size() != other.size()) {
-            throw std::runtime_error(std::format(
-            "Size mismatch for vector-vector operation: lhs size = {}, rhs size = {}",
-            this->size(),
-            other.size()
-            ));
-        }
+        assert(this->size() == other.size() && "Size mismatch for vector-vector multiplication");
 
         for (size_t i{0}; i < this->size(); ++i) {
             this->data()[i] *= other[i];
@@ -215,7 +245,7 @@ public:
     * @return *this
     */
     auto operator/=(std::span<const T> other) -> DenseVector& {
-       assert(this->size() == other.size() && "Size mismatch for vector-vector summation");
+       assert(this->size() == other.size() && "Size mismatch for vector-vector division");
 
         for (size_t i{0}; i < this->size(); ++i) {
             this->data()[i] /= other[i];
@@ -223,35 +253,39 @@ public:
         return *this;
     }
 
-    // DenseVector - container additions (element
+    // DenseVector - container additions (element by element)
     [[nodiscard]] auto operator+(std::span<const T> other) const -> DenseVector {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector addition");
         DenseVector result(*this);
         result += other;
         return result;
     }
 
-    // DenseVector - container subtraction
+    // DenseVector - container subtraction (element by element)
     [[nodiscard]] auto operator-(std::span<const T> other) const -> DenseVector {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector subtraction");
         DenseVector result(*this);
         result -= other;
         return result;
     }
 
-    // DenseVector - container multiplication
+    // DenseVector - container multiplication (element by element)
     [[nodiscard]] auto operator*(std::span<const T> other) const -> DenseVector {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector multiplication");
         DenseVector result(*this);
-        result += other;
+        result *= other;
         return result;
     }
-
+    // DenseVector - container division (element by element)
     [[nodiscard]] auto operator/(std::span<const T> other) const -> DenseVector {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector division");
         DenseVector result(*this);
-        result += other;
+        result /= other;
         return result;
     }
 
     [[nodiscard]] auto dot(std::span<const T> other) const -> T {
-        assert(this->size() == other.size() && "Size mismatch for vector-vector summation");
+        assert(this->size() == other.size() && "Size mismatch for vector-vector dot product");
 
         T sum{};
         for (size_t i{0}; i < this->size(); ++i) {
@@ -269,7 +303,7 @@ public:
      * @param Vector to add into DenseVector (element by element)
      * @return *this
      */
-     auto operator+=(const DenseVector other) -> DenseVector& {
+     auto operator+=(const DenseVector& other) -> DenseVector& {
         assert(this->size() == other.size() && "Size mismatch for vector-vector summation");
 
         for (size_t i{0}; i < this->size(); ++i) {
@@ -284,8 +318,8 @@ public:
     * @param Vector to subtract from DenseVector (element by element)
     * @return *this
     */
-    auto operator-=(const DenseVector other) -> DenseVector& {
-       assert(this->size() == other.size() && "Size mismatch for vector-vector summation");
+    auto operator-=(const DenseVector& other) -> DenseVector& {
+       assert(this->size() == other.size() && "Size mismatch for vector-vector subtraction");
 
         for (size_t i{0}; i < this->size(); ++i) {
             this->data()[i] -= other[i];
@@ -299,14 +333,8 @@ public:
     * @param Vector to multiply with DenseVector (element by element)
     * @return *this
     */
-    auto operator*=(const DenseVector other) -> DenseVector& {
-        if (this->size() != other.size()) {
-            throw std::runtime_error(std::format(
-            "Size mismatch for vector-vector operation: lhs size = {}, rhs size = {}",
-            this->size(),
-            other.size()
-            ));
-        }
+    auto operator*=(const DenseVector& other) -> DenseVector& {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector multiplication");
 
         for (size_t i{0}; i < this->size(); ++i) {
             this->data()[i] *= other[i];
@@ -320,8 +348,8 @@ public:
     * @param Vector to divide from DenseVector (element by element)
     * @return *this
     */
-    auto operator/=(const DenseVector other) -> DenseVector& {
-       assert(this->size() == other.size() && "Size mismatch for vector-vector summation");
+    auto operator/=(const DenseVector& other) -> DenseVector& {
+       assert(this->size() == other.size() && "Size mismatch for vector-vector division");
 
         for (size_t i{0}; i < this->size(); ++i) {
             this->data()[i] /= other[i];
@@ -330,34 +358,38 @@ public:
     }
 
     // DenseVector - container additions (element
-    [[nodiscard]] auto operator+(const DenseVector other) const -> DenseVector {
+    [[nodiscard]] auto operator+(const DenseVector& other) const -> DenseVector {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector addition");
         DenseVector result(*this);
         result += other;
         return result;
     }
 
     // DenseVector - container subtraction
-    [[nodiscard]] auto operator-(const DenseVector other) const -> DenseVector {
+    [[nodiscard]] auto operator-(const DenseVector& other) const -> DenseVector {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector subtraction");
         DenseVector result(*this);
         result -= other;
         return result;
     }
 
     // DenseVector - container multiplication
-    [[nodiscard]] auto operator*(const DenseVector other) const -> DenseVector {
+    [[nodiscard]] auto operator*(const DenseVector& other) const -> DenseVector {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector multiplication");
+        DenseVector result(*this);
+        result *= other;
+        return result;
+    }
+
+    [[nodiscard]] auto operator/(const DenseVector& other) const -> DenseVector {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector division");
         DenseVector result(*this);
         result += other;
         return result;
     }
 
-    [[nodiscard]] auto operator/(const DenseVector other) const -> DenseVector {
-        DenseVector result(*this);
-        result += other;
-        return result;
-    }
-
-    [[nodiscard]] auto dot(const DenseVector other) const -> T {
-        assert(this->size() == other.size() && "Size mismatch for vector-vector summation");
+    [[nodiscard]] auto dot(const DenseVector& other) const -> T {
+        assert(this->size() == other.size() && "Size mismatch for vector-vector dot product");
 
         T sum{};
         for (size_t i{0}; i < this->size(); ++i) {
@@ -368,7 +400,7 @@ public:
 
     [[nodiscard]] auto norm2() const noexcept -> T {
         T sqrSum{};
-        for (int i{0}; i < this->size(); ++i) {
+        for (size_t i{0}; i < this->size(); ++i) {
             sqrSum += this->data()[i] * this->data()[i];
         }
         return std::sqrt(sqrSum);
