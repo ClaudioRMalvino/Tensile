@@ -28,11 +28,13 @@ public:
 
     // Element accessor/assigner
     [[nodiscard]] auto operator[](size_t index) -> T& {
+        assert(index < this->size());
         return this->data()[index];
     }
 
     // Const element accessor/assigner
     [[nodiscard]] auto operator[](const size_t index) const -> const T& {
+        assert(index < this->size());
         return this->data()[index];
     }
 
@@ -65,7 +67,6 @@ public:
 
     auto pow(const int exponent) noexcept -> DenseVector& {
         assert(exponent >= 0);
-
         if (exponent == 0) {
             for (size_t i{0}; i < this->size(); ++i) {
                 this->data()[i] = 1;
@@ -101,6 +102,24 @@ public:
         return result;
     }
 
+    /**
+     * @brief Stream insertion operator for printing the vector
+     * @param os The output stream
+     * @param vec The DenseVector to print
+     * @return A reference to the output stream for chaining
+     */
+    friend auto operator<<(std::ostream& os, const DenseVector& vec) -> std::ostream& {
+        os << "[";
+        for (std::size_t i{0}; i < vec.size(); ++i) {
+            os << vec[i];
+            if (i < vec.size() - 1) {
+                os << ", ";
+            }
+        }
+        os << "]";
+
+        return os;
+    }
     //-----------------------------
     // Scalar operations
     // ----------------------------
