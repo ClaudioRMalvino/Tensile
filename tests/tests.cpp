@@ -135,3 +135,16 @@ TEST_F(DenseVectorTest, VectorMultiplicationWorks) {
         ASSERT_EQ(vec[i], expected[i]);
     }
 }
+
+TEST_F(DenseVectorTest, VectorDivisionWorks) {
+    DenseVector<double> expected {1.0, 1.0, 1.0, 1.0, 1.0};
+    DenseVector<double> result = vec / vec2;
+    DenseVector<double> result2 = vec / vec3;
+    vec /= vec2;
+
+    for (size_t i{0}; i < vec.size(); ++i) {
+        ASSERT_EQ(result[i], expected[i]);
+        ASSERT_EQ(result2[i], expected[i]);
+        ASSERT_EQ(vec[i], expected[i]);
+    }
+}

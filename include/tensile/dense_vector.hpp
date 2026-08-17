@@ -87,14 +87,14 @@ public:
     }
 
     auto pow(const int exponent) const -> DenseVector<T> {
-        assert(exponent > 0);
+        assert(exponent >= 0);
         DenseVector result(*this);
 
         if (exponent == 1) {
             return result;
         }
         for (size_t i{0}; i < this->size(); ++i) {
-            T val {result->data()[i]};
+            T val {result.data()[i]};
             for (int exp{0}; exp < exponent - 1; ++exp) {
                 result.data()[i] *= val;
             }
@@ -167,7 +167,7 @@ public:
      */
     auto operator/=(const T scalar) noexcept -> DenseVector& {
         for (size_t i{0}; i < this->size(); ++i) {
-            assert(this->data()[i] != 0);
+            assert(scalar != 0);
             this->data()[i] /= scalar;
         }
         return *this;
@@ -411,7 +411,7 @@ public:
     [[nodiscard]] auto operator/(const DenseVector& other) const -> DenseVector {
         assert(this->size() == other.size() && "Size mismatch for vector-vector division");
         DenseVector result(*this);
-        result += other;
+        result /= other;
         return result;
     }
 

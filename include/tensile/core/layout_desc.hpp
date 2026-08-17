@@ -1,16 +1,18 @@
 // This file will handle the element access and converting from N-D to a flat 1D row or column major access
 #pragma once
 #include <cstddef>
+#include <cassert>
 #include <type_traits>
 
-struct RowMajor{};
-struct ColMajor{};
+struct RowMajor {};
+struct ColMajor {};
 
-template<typename Layout>
+template <typename Layout>
 class LayoutDesc {
-private:
+   private:
     size_t rows_, cols_;
-public:
+
+   public:
     LayoutDesc(size_t rows, size_t cols) : rows_(rows), cols_(cols) {}
     [[nodiscard]] auto rows() const -> size_t { return rows_; }
     [[nodiscard]] auto cols() const -> size_t { return cols_; }
