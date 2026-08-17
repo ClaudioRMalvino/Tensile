@@ -3,7 +3,7 @@ add_executable(tensile_tests tests.cpp)
 target_link_libraries(
   tensile_tests PRIVATE
   GTest::gtest_main
-  tensile::tensilei
+  tensile::tensile
 )
 
 include(GoogleTest)

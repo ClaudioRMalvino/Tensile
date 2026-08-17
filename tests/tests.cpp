@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 
+using namespace tensile;
 
 class DenseVectorTest : public testing::Test {
 protected:
