@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 
+
 class DenseVectorTest : public testing::Test {
 protected:
 
