@@ -85,7 +85,7 @@ class DenseVector : private detail::MemStorage<E, Alignment> {
      * @param exponent Integer to raise the elements to
      * @return A DenseVector raised to exponent
      */
-    DenseVector pow(const int exponent) const noexcept {
+    DenseVector pow(const int exponent) const {
         assert(exponent >= 0);
         DenseVector result(*this);
 

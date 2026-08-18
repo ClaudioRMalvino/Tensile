@@ -164,7 +164,7 @@ TEST_F(DenseVectorTest, VectorDivisionWorks) {
 TEST_F(DenseVectorTest, VectorZeroInitializationWorks) {
     DenseVector<double> expected{0.0, 0.0, 0.0, 0.0, 0.0};
     vec3.setZeros();
-    auto vec_initialized_zero = DenseVector<double>::zeros(3);
+    auto vec_initialized_zero = DenseVector<double>::zeros(5);
 
     for (size_t i{0}; i < expected.size(); ++i) {
         ASSERT_EQ(expected[i], vec_initialized_zero[i]);
