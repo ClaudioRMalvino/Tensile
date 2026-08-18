@@ -5,6 +5,7 @@ Checks: >
   cppcoreguidelines-*,
   google-*,
   modernize-*,
+  -modernize-use-trailing-return-type,
   performance-*,
   readability-*
 

@@ -1,34 +1,29 @@
 #include <gtest/gtest.h>
+
+#include <iostream>
 #include <tensile.hpp>
 #include <vector>
-#include <iostream>
 
-using tensile::DenseVector;
 using tensile::DenseMatrix;
+using tensile::DenseVector;
 
 class DenseVectorTest : public testing::Test {
-protected:
-
+   protected:
     DenseVector<double> vec{1.0, 2.0, 3.0, 4.0, 5.0};
     std::vector<double> vec2{1.0, 2.0, 3.0, 4.0, 5.0};
     DenseVector<double> vec3{1.0, 2.0, 3.0, 4.0, 5.0};
     DenseVector<double> empty_vec;
-
 };
 
 class DenseMatrixTest : public testing::Test {
-protected:
-    using RowMajor = tensile::detail::RowMajor;
-    using ColMajor = tensile::detail::ColMajor;
+   protected:
     DenseMatrix<double> row_major_matrix{4, 4};
-    DenseMatrix<double, ColMajor> col_major_matrix{3, 3};
-
+    DenseMatrix<double, tensile::ColMajor> col_major_matrix{3, 3};
 };
 
-
 TEST_F(DenseMatrixTest, DenseMatrixLayoutsWorks) {
-    EXPECT_TRUE((std::is_same_v<decltype(row_major_matrix)::layout_type, RowMajor>));
-    EXPECT_TRUE((std::is_same_v<decltype(col_major_matrix)::layout_type, ColMajor>));
+    EXPECT_TRUE((std::is_same_v<decltype(row_major_matrix)::layout_type, tensile::RowMajor>));
+    EXPECT_TRUE((std::is_same_v<decltype(col_major_matrix)::layout_type, tensile::ColMajor>));
 }
 
 TEST_F(DenseVectorTest, InitializationAfterInstantiationWorks) {
@@ -38,7 +33,7 @@ TEST_F(DenseVectorTest, InitializationAfterInstantiationWorks) {
 }
 
 TEST_F(DenseVectorTest, VectorInitializationWorks) {
-    ASSERT_EQ(vec.size(), 5) << "vec.size() does not equal 5, instead is " << vec.size() << '\n' ;
+    ASSERT_EQ(vec.size(), 5) << "vec.size() does not equal 5, instead is " << vec.size() << '\n';
     for (size_t i{0}; i < vec.size(); ++i) {
         ASSERT_EQ(vec[i], static_cast<double>(i + 1));
     }
@@ -58,8 +53,8 @@ TEST_F(DenseVectorTest, ElementRetrievalandAssignmentBoundsChecking) {
 }
 
 TEST_F(DenseVectorTest, PowFunctionWorks) {
-    DenseVector<double> expected {1.0, 4.0, 9.0, 16.0, 25.0};
-    DenseVector<double> expected2 {1.0, 1.0, 1.0, 1.0, 1.0};
+    DenseVector<double> expected{1.0, 4.0, 9.0, 16.0, 25.0};
+    DenseVector<double> expected2{1.0, 1.0, 1.0, 1.0, 1.0};
 
     DenseVector<double> result = pow(vec, 1);
     DenseVector<double> result2 = pow(vec, 0);
@@ -70,7 +65,6 @@ TEST_F(DenseVectorTest, PowFunctionWorks) {
         ASSERT_EQ(vec[i], expected[i]);
         ASSERT_EQ(result2[i], expected2[i]);
     }
-
 }
 
 TEST_F(DenseVectorTest, ScalarAdditionWorks) {
@@ -118,19 +112,19 @@ TEST_F(DenseVectorTest, ScalarDivisionWorks) {
 }
 
 TEST_F(DenseVectorTest, VectorAdditionWorks) {
-    DenseVector<double> expected {2.0, 4.0, 6.0, 8.0, 10.0};
+    DenseVector<double> expected{2.0, 4.0, 6.0, 8.0, 10.0};
     DenseVector<double> result = vec + vec2;
     DenseVector<double> result2 = vec + vec3;
     vec += vec2;
     for (size_t i{0}; i < vec.size(); ++i) {
-      ASSERT_EQ(result[i], expected[i]);
+        ASSERT_EQ(result[i], expected[i]);
         ASSERT_EQ(result2[i], expected[i]);
         ASSERT_EQ(vec[i], expected[i]);
     }
 }
 
 TEST_F(DenseVectorTest, VectorSubtractionWorks) {
-    DenseVector<double> expected {0.0, 0.0, 0.0, 0.0, 0.0};
+    DenseVector<double> expected{0.0, 0.0, 0.0, 0.0, 0.0};
     DenseVector<double> result = vec - vec2;
     DenseVector<double> result2 = vec - vec3;
     vec -= vec2;
@@ -142,7 +136,7 @@ TEST_F(DenseVectorTest, VectorSubtractionWorks) {
 }
 
 TEST_F(DenseVectorTest, VectorMultiplicationWorks) {
-    DenseVector<double> expected {1.0, 4.0, 9.0, 16.0, 25.0};
+    DenseVector<double> expected{1.0, 4.0, 9.0, 16.0, 25.0};
     DenseVector<double> result = vec * vec2;
     DenseVector<double> result2 = vec * vec3;
     vec *= vec2;
@@ -155,7 +149,7 @@ TEST_F(DenseVectorTest, VectorMultiplicationWorks) {
 }
 
 TEST_F(DenseVectorTest, VectorDivisionWorks) {
-    DenseVector<double> expected {1.0, 1.0, 1.0, 1.0, 1.0};
+    DenseVector<double> expected{1.0, 1.0, 1.0, 1.0, 1.0};
     DenseVector<double> result = vec / vec2;
     DenseVector<double> result2 = vec / vec3;
     vec /= vec2;
@@ -167,5 +161,13 @@ TEST_F(DenseVectorTest, VectorDivisionWorks) {
     }
 }
 
+TEST_F(DenseVectorTest, VectorZeroInitializationWorks) {
+    DenseVector<double> expected{0.0, 0.0, 0.0, 0.0, 0.0};
+    vec3.setZeros();
+    auto vec_initialized_zero = DenseVector<double>::zeros(3);
 
-
+    for (size_t i{0}; i < expected.size(); ++i) {
+        ASSERT_EQ(expected[i], vec_initialized_zero[i]);
+        ASSERT_EQ(expected[i], vec3[i]);
+    }
+}

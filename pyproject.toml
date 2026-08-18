@@ -2,4 +2,6 @@
 name = "tensile"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pybind11>=3.1.0",
+]

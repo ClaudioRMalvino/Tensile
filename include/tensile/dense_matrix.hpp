@@ -7,26 +7,28 @@
 // Namespace tensile starts here
 namespace tensile {
 
-    template<typename T, typename Layout = detail::RowMajor, size_t Alignment = 64>
-    class DenseMatrix : private detail::MemStorage<T, Alignment> {
-    private:
-        detail::LayoutDesc<Layout> layout_;
+template <typename T>
+concept TrivialMatrixElement = std::is_trivially_copyable_v<T> && std::is_trivially_default_constructible_v<T>;
 
-    public:
+template <typename T, typename L = RowMajor, size_t Alignment = 64>
+class DenseMatrix : private detail::MemStorage<T, Alignment> {
+   private:
+    detail::LayoutDesc<L> layout_;
 
-        using value_type  = T;
-        using layout_type = Layout;
-        static constexpr size_t alignment = Alignment;
+   public:
+    using detail::MemStorage<T, Alignment>::size;
+    using detail::MemStorage<T, Alignment>::data;
+    using layout_type = L;
 
-        DenseMatrix(size_t rows, size_t cols) : detail::MemStorage<T, Alignment>(rows * cols), layout_{rows, cols} {
-            assert(rows > 0 && cols > 0);
-        }
-        [[nodiscard]] auto operator()(size_t i, size_t j) noexcept -> T& { return this->data()[layout_(i, j)]; }
-        [[nodiscard]] auto operator()(size_t i, size_t j) const noexcept -> const T& { return this->data()[layout_(i, j)]; }
+    DenseMatrix(size_t rows, size_t cols) : detail::MemStorage<T, Alignment>(rows * cols), layout_{rows, cols} {
+        assert(rows > 0 && cols > 0);
+    }
+    [[nodiscard]] T& operator()(size_t i, size_t j) noexcept { return this->data()[layout_(i, j)]; }
+    [[nodiscard]] const T& operator()(size_t i, size_t j) const noexcept { return this->data()[layout_(i, j)]; }
 
-        [[nodiscard]] auto rows() const noexcept -> size_t { return layout_.rows(); }
-        [[nodiscard]] auto cols() const noexcept -> size_t { return layout_.cols(); }
+    [[nodiscard]] size_t rows() const noexcept { return layout_.rows(); }
+    [[nodiscard]] size_t cols() const noexcept { return layout_.cols(); }
 
-        static constexpr auto layout() noexcept -> layout_type { return {}; }
-    };
-} // Namespace tensile
+    static constexpr layout_type layout() noexcept { return {}; }
+};
+}  // Namespace tensile
