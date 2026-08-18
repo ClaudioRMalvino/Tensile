@@ -10,21 +10,21 @@ namespace tensile {
 template <typename T>
 concept TrivialMatrixElement = std::is_trivially_copyable_v<T> && std::is_trivially_default_constructible_v<T>;
 
-template <typename T, typename L = RowMajor, size_t Alignment = 64>
-class DenseMatrix : private detail::MemStorage<T, Alignment> {
+template <TrivialMatrixElement E, typename L = RowMajor, size_t Alignment = 64>
+class DenseMatrix : private detail::MemStorage<E, Alignment> {
    private:
     detail::LayoutDesc<L> layout_;
 
    public:
-    using detail::MemStorage<T, Alignment>::size;
-    using detail::MemStorage<T, Alignment>::data;
+    using detail::MemStorage<E, Alignment>::size;
+    using detail::MemStorage<E, Alignment>::data;
     using layout_type = L;
 
-    DenseMatrix(size_t rows, size_t cols) : detail::MemStorage<T, Alignment>(rows * cols), layout_{rows, cols} {
+    DenseMatrix(size_t rows, size_t cols) : detail::MemStorage<E, Alignment>(rows * cols), layout_{rows, cols} {
         assert(rows > 0 && cols > 0);
     }
-    [[nodiscard]] T& operator()(size_t i, size_t j) noexcept { return this->data()[layout_(i, j)]; }
-    [[nodiscard]] const T& operator()(size_t i, size_t j) const noexcept { return this->data()[layout_(i, j)]; }
+    [[nodiscard]] E& operator()(size_t i, size_t j) noexcept { return this->data()[layout_(i, j)]; }
+    [[nodiscard]] const E& operator()(size_t i, size_t j) const noexcept { return this->data()[layout_(i, j)]; }
 
     [[nodiscard]] size_t rows() const noexcept { return layout_.rows(); }
     [[nodiscard]] size_t cols() const noexcept { return layout_.cols(); }
