@@ -7,13 +7,7 @@
 // Namespace tensile starts here
 namespace tensile {
 
-    template <typename T>
-        concept TrivialMatrixElement = requires(T)
-    {
-        std::is_trivially_copyable_v<T>;
-        std::is_trivially_default_constructible_v<T>;
-    };
-    template<TrivialMatrixElement T, typename Layout = detail::RowMajor, size_t Alignment = 64>
+    template<typename T, typename Layout = detail::RowMajor, size_t Alignment = 64>
     class DenseMatrix : private detail::MemStorage<T, Alignment> {
     private:
         detail::LayoutDesc<Layout> layout_;
