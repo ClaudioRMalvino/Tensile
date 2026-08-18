@@ -3,7 +3,8 @@
 #include <vector>
 #include <iostream>
 
-using namespace tensile;
+using tensile::DenseVector;
+using tensile::DenseMatrix;
 
 class DenseVectorTest : public testing::Test {
 protected:
@@ -14,6 +15,21 @@ protected:
     DenseVector<double> empty_vec;
 
 };
+
+class DenseMatrixTest : public testing::Test {
+protected:
+    using RowMajor = tensile::detail::RowMajor;
+    using ColMajor = tensile::detail::ColMajor;
+    DenseMatrix<double> row_major_matrix{4, 4};
+    DenseMatrix<double, ColMajor> col_major_matrix{3, 3};
+
+};
+
+
+TEST_F(DenseMatrixTest, DenseMatrixLayoutsWorks) {
+    EXPECT_TRUE((std::is_same_v<decltype(row_major_matrix)::layout_type, RowMajor>));
+    EXPECT_TRUE((std::is_same_v<decltype(col_major_matrix)::layout_type, ColMajor>));
+}
 
 TEST_F(DenseVectorTest, InitializationAfterInstantiationWorks) {
     empty_vec = {1.0, 2.0, 3.0, 4.0, 5.0};
@@ -150,3 +166,6 @@ TEST_F(DenseVectorTest, VectorDivisionWorks) {
         ASSERT_EQ(vec[i], expected[i]);
     }
 }
+
+
+
