@@ -35,7 +35,7 @@ class DenseVector : private detail::MemStorage<E, Alignment> {
      * @param size The size of the vector be instantiated and initialized with zeros
      * @return DenseVector initialized with zeros
      */
-    static DenseVector zeros(const int size) noexcept {
+    static DenseVector zeros(const int size) {
         DenseVector result(size);
         for (int i{0}; i < size; ++i) {
             result[i] = 0;
