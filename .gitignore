@@ -3,6 +3,10 @@ docs/
 logs/
 plots/
 
+#scrap
+scrap.cpp
+scrap*
+
 # Prerequisites
 *.d
 

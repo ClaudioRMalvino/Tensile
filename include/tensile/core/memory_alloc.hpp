@@ -2,7 +2,6 @@
 
 #pragma once
 #include <cassert>
-#include <concepts>
 #include <memory>
 #include <new>
 #include <utility>
@@ -16,18 +15,18 @@ concept TrivialElement = std::is_trivially_copyable_v<T> && std::is_trivially_de
 // This class is meant to allocate the memory for size_ elements of type T in the heap with an alignment of 64 bytes
 template <TrivialElement E, std::size_t Alignment = 64>
 class MemStorage {
-   private:
+private:
     // Pointer to the allocated storage
     E* data_;
     // Size of contiguous memory
-    std::size_t size_;
+    std::size_t size_{};
 
     // Allocates raw memory with alignment of 64 bytes
     // Matrices or uninitialized by default, reading into a newly constructed object without being
     // initialized will produce undefined behavior.
     void alloc(size_t size) { data_ = static_cast<E*>(::operator new(size * sizeof(E), std::align_val_t{Alignment})); }
 
-   public:
+public:
     using value_type = E;
     static constexpr size_t alignment = Alignment;
 
@@ -44,18 +43,18 @@ class MemStorage {
     ~MemStorage() { ::operator delete(data_, std::align_val_t{Alignment}); }
 
     // Copy constructor
-    MemStorage(const MemStorage& other) : size_(other.size_) {
+    MemStorage(const MemStorage& original) : size_(original.size_) {
         alloc(size_);
-        std::uninitialized_copy(other.data_, other.data_ + size_, data_);
+        std::uninitialized_copy(original.data_, original.data_ + size_, data_);
     }
 
     // Copy assignment
-    MemStorage& operator=(const MemStorage& other) {
-        if (this == &other) {
+    MemStorage& operator=(const MemStorage& original) {
+        if (this == &original) {
             return *this;
         }
 
-        MemStorage temp(other);
+        MemStorage temp(original);
         std::swap(data_, temp.data_);
         std::swap(size_, temp.size_);
 
