@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <memory>
 #include <new>
+#include <type_traits>
 #include <utility>
 
 // Namespace tensile::detail starts here

@@ -2,8 +2,11 @@
 
 #pragma once
 #include <cassert>
+#include <cstddef>
 #include <initializer_list>
+#include <ostream>
 #include <stdexcept>
+#include <type_traits>
 
 #include "core/layout_desc.hpp"
 #include "core/memory_alloc.hpp"

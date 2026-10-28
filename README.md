@@ -12,7 +12,7 @@ The library focuses on dense matrices and vectors, featuring lazy evaluation via
 ## Features (Current & Planned)
 
 - **Header-Only Architecture:** Include `include/tensile.hpp` into your project and compile.
-- **Modern C++23:** Leverages deducing `this` for clean CRTP expression templates and `std::mdspan` concepts for layout management.
+- **Modern C++23:** Uses C++20/23 concepts (rather than CRTP) to constrain element types, layouts and expression templates, and C++23 multidimensional subscripts (`m[i, j]`) for element access.
 - **Hardware Optimized:** Custom aligned memory allocators to guarantee SIMD-friendly cache line alignment (64-byte).
 - **Expression Templates:** Complex arithmetic like $D = 2.0 * A + B - 0.5 * C$ is evaluated in a single pass without allocating temporary matrices.
 - **High-Performance BLAS:** Progressively optimized Level 1, 2, and 3 operations featuring cache blocking, loop reordering, and register-level micro-kernels.

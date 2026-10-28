@@ -1,9 +1,16 @@
 // This file will describe the 1D vector class and implementation
 
 #pragma once
+#include <cassert>
 #include <cmath>
+#include <cstddef>
 #include <format>
+#include <initializer_list>
+#include <memory>
+#include <ostream>
 #include <span>
+#include <stdexcept>
+#include <type_traits>
 
 #include "core/memory_alloc.hpp"
 
