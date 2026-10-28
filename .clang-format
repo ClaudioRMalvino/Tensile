@@ -13,4 +13,15 @@ ColumnLimit: 120
 
 # Google aligns to the type (e.g., int* ptr). Making it explicit:
 PointerAlignment: Left
+
+# Put function braces on their own line; everything else stays attached
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
+  SplitEmptyFunction: true
+
+# Google allows `void foo() {}` on one line; this stops that
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortBlocksOnASingleLine: Always
 ---

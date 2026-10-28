@@ -3,7 +3,6 @@
 #pragma once
 #include <cassert>
 #include <initializer_list>
-
 #include <stdexcept>
 
 #include "core/layout_desc.hpp"
@@ -51,7 +50,6 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
     static_assert(std::is_same_v<Layout, RowMajor> || std::is_same_v<Layout, ColMajor>,
                   "Layout must be RowMajor or ColMajor");
 
-   private:
     using detail::LayoutDesc<Layout>::loc;
 
    public:
@@ -61,7 +59,9 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
     using detail::LayoutDesc<Layout>::cols;
 
     // Default constructor
-    explicit DenseMatrix() : detail::MemStorage<E, Alignment>(), detail::LayoutDesc<Layout>() {}
+    DenseMatrix() : detail::MemStorage<E, Alignment>(), detail::LayoutDesc<Layout>()
+    {
+    }
 
     /**
      * Size allocation constructor for a matrix of size = sqr_length * sqr_length.
@@ -69,8 +69,8 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
      * sqr_length * sq_length.
      */
     explicit DenseMatrix(const size_t sqr_length)
-        : detail::MemStorage<E, Alignment>(sqr_length * sqr_length),
-          detail::LayoutDesc<Layout>(sqr_length, sqr_length) {}
+        : detail::MemStorage<E, Alignment>(sqr_length * sqr_length), detail::LayoutDesc<Layout>(sqr_length, sqr_length)
+    { assert(sqr_length > 0); }
 
     /**
      * Size allocation constructor for rectangular shaped matrix.
@@ -78,7 +78,8 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
      * @param cols : const size_t number of columns.
      */
     explicit DenseMatrix(const size_t rows, const size_t cols)
-        : detail::MemStorage<E, Alignment>(rows * cols), detail::LayoutDesc<Layout>(rows, cols) {}
+        : detail::MemStorage<E, Alignment>(rows * cols), detail::LayoutDesc<Layout>(rows, cols)
+    { assert(rows > 0 && cols > 0); }
 
     /**
      * Rectangular matrix constructor with elements initialized with `value`.
@@ -90,9 +91,7 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
         : detail::MemStorage<E, Alignment>(row * col), detail::LayoutDesc<Layout>(row, col)
     {
         for (size_t idx_i{}; idx_i < row; ++idx_i) {
-            for (size_t idx_j{}; idx_j < col; ++idx_j) {
-                data()[loc(idx_i, idx_j)] = value;
-            }
+            for (size_t idx_j{}; idx_j < col; ++idx_j) { data()[loc(idx_i, idx_j)] = value; }
         }
     }
 
@@ -102,7 +101,8 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
      */
     DenseMatrix(std::initializer_list<std::initializer_list<E>> list)
         : detail::MemStorage<E, Alignment>(list.size() * list.begin()[0].size()),
-          detail::LayoutDesc<Layout>(list.size(), list.begin()[0].size()) {
+          detail::LayoutDesc<Layout>(list.size(), list.begin()[0].size())
+    {
         assert(list.size() > 0);
 
         for (size_t idx_i{}; idx_i < rows(); ++idx_i) {
@@ -122,7 +122,8 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
      * @param cols number of columns.
      * @return DenseMatrix initialized with zeros.
      */
-    static DenseMatrix zeros(const size_t rows, const size_t cols) {
+    static DenseMatrix zeros(const size_t rows, const size_t cols)
+    {
         DenseMatrix result(rows, cols, E{});
         return result;
     }
@@ -130,13 +131,10 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
     /**
      * Sets all elements within the matrix equal to zero.
      */
-    void set_to_zeros() {
-        for (size_t idx_i{}; idx_i < rows(); ++idx_i)
-        {
-            for (size_t idx_j{}; idx_j < cols(); ++idx_j)
-            {
-                data()[loc(idx_i, idx_j)] = E{};
-            }
+    void set_to_zeros()
+    {
+        for (size_t idx_i{}; idx_i < rows(); ++idx_i) {
+            for (size_t idx_j{}; idx_j < cols(); ++idx_j) { data()[loc(idx_i, idx_j)] = E{}; }
         }
     }
 
@@ -146,7 +144,8 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
      * @param cols number of columns.
      * @return DenseMatrix initialized with zeros.
      */
-    static DenseMatrix ones(const size_t rows, const size_t cols) {
+    static DenseMatrix ones(const size_t rows, const size_t cols)
+    {
         DenseMatrix result(rows, cols, E{1});
         return result;
     }
@@ -156,14 +155,12 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
      * @param sq_length the length of the rows and columns for the square matrix of size = sq_length * sq_length.
      * @return DenseMatrix with the main diagonal initialized with ones.
      */
-    static DenseMatrix identity(const size_t sq_length) {
-
+    static DenseMatrix identity(const size_t sq_length)
+    {
         DenseMatrix result(sq_length);
 
-        for (size_t idx_i{}; idx_i < result.rows(); ++idx_i)
-        {
-            for (size_t idx_j{}; idx_j < result.cols(); ++idx_j)
-            {
+        for (size_t idx_i{}; idx_i < result.rows(); ++idx_i) {
+            for (size_t idx_j{}; idx_j < result.cols(); ++idx_j) {
                 if (idx_i == idx_j) {
                     result[idx_i, idx_j] = E{1};
                     continue;
@@ -175,13 +172,33 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
         return result;
     }
 
-    [[nodiscard]] E& operator[](const size_t idx_i, const size_t idx_j) noexcept { return data()[loc(idx_i, idx_j)]; }
-    [[nodiscard]] const E& operator[](const size_t idx_i, const size_t idx_j) const noexcept {
-        return data()[loc(idx_i, idx_j)];
-    }
+    [[nodiscard]] E& operator[](const size_t idx_i, const size_t idx_j) noexcept
+    { return data()[loc(idx_i, idx_j)]; }
+    [[nodiscard]] const E& operator[](const size_t idx_i, const size_t idx_j) const noexcept
+    { return data()[loc(idx_i, idx_j)]; }
     [[nodiscard]]
-    static constexpr Layout layout() noexcept {
-        return {};
+    static constexpr Layout layout() noexcept
+    { return {}; }
+
+    /**
+     * @brief Stream insertion opeator for printing the DenseMatrix
+     * @param os The output stream
+     * @param mat The DenseMatrix to print
+     * @return A reference to the output stream for chaining
+     */
+    friend std::ostream& operator<<(std::ostream& os, const DenseMatrix& mat)
+    {
+        os << "[";
+        for (std::size_t idx_i{}; idx_i < mat.rows(); ++idx_i) {
+            os << "[";
+            for (std::size_t idx_j{}; idx_j < mat.cols(); ++idx_j) {
+                os << mat[idx_i, idx_j];
+                if (idx_j < mat.cols() - 1) { os << ", "; }
+            }
+            os << "]" << '\n';
+        }
+        os << "]";
+        return os;
     }
 };
 }  // Namespace tensile

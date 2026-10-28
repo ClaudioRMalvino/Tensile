@@ -17,14 +17,14 @@ jobs:
           - { cxx: g++-13, c: gcc-13}
           - { cxx: clang++, c: clang }
         sanitizer: [none, asan, ubsan]
-        exclude: 
+        exclude:
           - os: macos-latest
             compiler: {cxx: g++-13, c: gcc-13}
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies (Ubunutu)
+    - name: Install dependencies (Ubuntu)
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
@@ -35,19 +35,23 @@ jobs:
       run: |
         brew install ninja
 
-
+    # Sanitizer jobs build Debug with exactly one sanitizer; the "none" job builds Release.
+    # Sanitizer flags are applied per target by CMake (see tensile_enable_sanitizers in CMakeLists.txt).
     - name: Configure CMake
       env:
         CXX: ${{ matrix.compiler.cxx }}
         CC: ${{ matrix.compiler.c }}
       run: |
-        if [ "${{ matrix.sanitizer }}" == "asan" ]; then
-          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-fsanitize=address -fno-omit-frame-pointer" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address"
-        elif [ "${{ matrix.sanitizer }}" == "ubsan" ]; then
-          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-fsanitize=undefined" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=undefined"
-        else
-          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-        fi
+        case "${{ matrix.sanitizer }}" in
+          asan)  build_type=Debug;   sanitizers=address ;;
+          ubsan) build_type=Debug;   sanitizers=undefined ;;
+          *)     build_type=Release; sanitizers= ;;
+        esac
+        cmake -B build -G Ninja \
+          -DCMAKE_BUILD_TYPE=$build_type \
+          -DTENSILE_SANITIZERS=$sanitizers \
+          -DTENSILE_BUILD_TESTS=ON \
+          -DTENSILE_BUILD_BENCHMARKS=ON
 
     - name: Build
       run: cmake --build build
@@ -56,6 +60,8 @@ jobs:
       working-directory: build
       run: ctest --output-on-failure
 
-    - name: Run Benchmarks
+    # CI runners are shared VMs, so timings here are not meaningful. This only checks that the benchmarks run
+    # without crashing, using the smallest problem size. Real measurements are taken locally in a Release build.
+    - name: Benchmark smoke test
       if: matrix.sanitizer == 'none'
-      run: ./build/benchmarks/tensile_benchmarks
+      run: ./build/benchmarks/tensile_benchmarks --benchmark_filter='/1000$' --benchmark_min_time=0.01s

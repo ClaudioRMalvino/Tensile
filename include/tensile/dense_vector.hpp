@@ -14,7 +14,7 @@ template <typename T>
 concept TrivialVectorElement = std::is_trivially_copyable_v<T> && std::is_trivially_default_constructible_v<T>;
 
 /**
- * @brief Dense, heap-allocated 1D vector that owns its elements.
+ * @brief Dense, heap-allocated 1D vector.
  *
  * All `size()` elements are stored in a single contiguous buffer whose address is aligned to `Alignment` bytes.
  *
@@ -50,29 +50,31 @@ class DenseVector : detail::MemStorage<E, Alignment> {
     using detail::MemStorage<E, Alignment>::data;
 
     // Default constructor
-    explicit DenseVector() : detail::MemStorage<E, Alignment>() {}
+    DenseVector() : detail::MemStorage<E, Alignment>()
+    {
+    }
 
     // Size allocation constructor
-    explicit DenseVector(const size_t size) : detail::MemStorage<E, Alignment>(size) {}
+    explicit DenseVector(const size_t size) : detail::MemStorage<E, Alignment>(size)
+    { assert(size > 0); }
 
     // Size allocation constructor with value initialization
-    explicit DenseVector(const size_t size, const E value) : detail::MemStorage<E, Alignment>(size) {
-        for (size_t idx{}; idx < size; ++idx) {
-            this->data()[idx] = value;
-        }
+    explicit DenseVector(const size_t size, const E value) : detail::MemStorage<E, Alignment>(size)
+    {
+        for (size_t idx{}; idx < size; ++idx) { data()[idx] = value; }
     }
 
     // List initialization constructor
-    DenseVector(std::initializer_list<E> list) : detail::MemStorage<E, Alignment>(list.size()) {
-        std::uninitialized_copy(list.begin(), list.end(), data());
-    }
+    DenseVector(std::initializer_list<E> list) : detail::MemStorage<E, Alignment>(list.size())
+    { std::uninitialized_copy(list.begin(), list.end(), data()); }
 
     /**
      * Static member which initializes a DenseVector with zero valued elements.
      *  @param size The size of the vector
      * @return DenseVector initialized with zeros
      */
-    static DenseVector zeros(const size_t size) {
+    static DenseVector zeros(const size_t size)
+    {
         DenseVector result(size, E{});
         return result;
     }
@@ -82,7 +84,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param size The size of the vector
      * @return DenseVector initialized with ones
      */
-    static DenseVector ones(const size_t size) {
+    static DenseVector ones(const size_t size)
+    {
         DenseVector result(size, E{1});
         return result;
     }
@@ -90,45 +93,41 @@ class DenseVector : detail::MemStorage<E, Alignment> {
     /**
      * Sets all elements within the vector equal to zero for non-const DenseVectors.
      */
-    void set_to_zeros() {
-        for (size_t idx{0}; idx < size(); idx++) {
-            data()[idx] = E{};
-        }
+    void set_to_zeros()
+    {
+        for (size_t idx{0}; idx < size(); idx++) { data()[idx] = E{}; }
     }
 
     // Element accessor/assigner without bound checking
-    [[nodiscard]] E& operator[](size_t index) {
+    [[nodiscard]] E& operator[](size_t index)
+    {
         assert(index < size());
         return data()[index];
     }
 
     // Const element accessor/assigner without bound checking
-    [[nodiscard]] const E& operator[](const size_t index) const {
+    [[nodiscard]] const E& operator[](const size_t index) const
+    {
         assert(index < size());
         return data()[index];
     }
 
     // Non-Const accesses to elements with bound checking and allows for negative indexing
-    [[nodiscard]] E& at(const int index) {
-
-        if ((index < 0) && (index + static_cast<int>(size()) >= 0)) {
-            return data()[size() + index];
-        }
+    [[nodiscard]] E& at(const int index)
+    {
+        if ((index < 0) && (index + static_cast<int>(size()) >= 0)) { return data()[size() + index]; }
         if ((index >= static_cast<int>(size())) || (index + static_cast<int>(size()) < 0)) {
-                    throw std::out_of_range(
-                        std::format("Index {}, is out of range for DenseVector of size {}", index, size()));
-                }
+            throw std::out_of_range(std::format("Index {}, is out of range for DenseVector of size {}", index, size()));
+        }
         return data()[static_cast<size_t>(index)];
     }
 
     // Const accesses to elements with bound checking and allows for negative indexing
-    [[nodiscard]] const E& at(const int index) const {
-        if ((index < 0) && (index + (static_cast<int>(size())) >= 0)) {
-        return data()[size() + index];
-        }
+    [[nodiscard]] const E& at(const int index) const
+    {
+        if ((index < 0) && (index + (static_cast<int>(size())) >= 0)) { return data()[size() + index]; }
         if ((index >= static_cast<int>(size())) || (index + static_cast<int>(size()) < 0)) {
-                   throw std::out_of_range(
-                       std::format("Index {}, is out of range for DenseVector of size {}", index, size()));
+            throw std::out_of_range(std::format("Index {}, is out of range for DenseVector of size {}", index, size()));
         }
         return data()[index];
     }
@@ -139,13 +138,12 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param vec The DenseVector to print
      * @return A reference to the output stream for chaining
      */
-    friend std::ostream& operator<<(std::ostream& os, const DenseVector& vec) {
+    friend std::ostream& operator<<(std::ostream& os, const DenseVector& vec)
+    {
         os << "[";
-        for (std::size_t idx{0}; idx < vec.size(); ++idx) {
+        for (std::size_t idx{}; idx < vec.size(); ++idx) {
             os << vec[idx];
-            if (idx < vec.size() - 1) {
-                os << ", ";
-            }
+            if (idx < vec.size() - 1) { os << ", "; }
         }
         os << "]";
         return os;
@@ -156,23 +154,18 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param exponent Integer power to raise elements by
      * @return *this
      */
-    DenseVector& pow(const int exponent) noexcept {
+    DenseVector& pow(const int exponent) noexcept
+    {
         assert(exponent >= 0);
         if (exponent == 0) {
-            for (size_t idx{0}; idx < size(); ++idx) {
-                data()[idx] = 1;
-            }
+            for (size_t idx{0}; idx < size(); ++idx) { data()[idx] = 1; }
             return *this;
         }
-        if (exponent == 1) {
-            return *this;
-        }
+        if (exponent == 1) { return *this; }
 
         for (size_t idx{0}; idx < size(); ++idx) {
             E val{data()[idx]};
-            for (int exp{0}; exp < exponent - 1; ++exp) {
-                data()[idx] *= val;
-            }
+            for (int exp{0}; exp < exponent - 1; ++exp) { data()[idx] *= val; }
         }
         return *this;
     }
@@ -182,18 +175,15 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param exponent Integer to raise the elements to
      * @return A DenseVector raised to exponent
      */
-    DenseVector pow(const int exponent) const {
+    DenseVector pow(const int exponent) const
+    {
         assert(exponent >= 0);
         DenseVector result(*this);
 
-        if (exponent == 1) {
-            return result;
-        }
+        if (exponent == 1) { return result; }
         for (size_t idx{0}; idx < size(); ++idx) {
             E val{result.data()[idx]};
-            for (int exp{0}; exp < exponent - 1; ++exp) {
-                result.data()[idx] *= val;
-            }
+            for (int exp{0}; exp < exponent - 1; ++exp) { result.data()[idx] *= val; }
         }
         return result;
     }
@@ -207,10 +197,9 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param scalar value to add to each element
      * @return *this
      */
-    DenseVector& operator+=(const E scalar) noexcept {
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] += scalar;
-        }
+    DenseVector& operator+=(const E scalar) noexcept
+    {
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] += scalar; }
         return *this;
     }
 
@@ -219,10 +208,9 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param scalar value to subtract from each element
      * @return *this
      */
-    DenseVector& operator-=(const E scalar) noexcept {
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] -= scalar;
-        }
+    DenseVector& operator-=(const E scalar) noexcept
+    {
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] -= scalar; }
         return *this;
     }
 
@@ -231,10 +219,9 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param scalar value to multiply each element by
      * @return *this
      */
-    DenseVector& operator*=(const E scalar) noexcept {
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] *= scalar;
-        }
+    DenseVector& operator*=(const E scalar) noexcept
+    {
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] *= scalar; }
         return *this;
     }
 
@@ -243,7 +230,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param scalar value to divide each element by
      * @return *this
      */
-    DenseVector& operator/=(const E scalar) noexcept {
+    DenseVector& operator/=(const E scalar) noexcept
+    {
         for (size_t idx{0}; idx < size(); ++idx) {
             assert(scalar != 0);
             data()[idx] /= scalar;
@@ -256,7 +244,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param scalar value to add to each element
      * @return DenseVector with each element added by scalar
      */
-    [[nodiscard]] DenseVector operator+(const E scalar) {
+    [[nodiscard]] DenseVector operator+(const E scalar)
+    {
         DenseVector result(*this);
         result += scalar;
         return result;
@@ -267,7 +256,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param scalar value to subtract from each element
      * @return DenseVector with each element subtracted by scalar
      */
-    [[nodiscard]] DenseVector operator-(const E scalar) {
+    [[nodiscard]] DenseVector operator-(const E scalar)
+    {
         DenseVector result(*this);
         result -= scalar;
         return result;
@@ -278,7 +268,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param scalar value to multiply each element by
      * @return DenseVector with each element multiplied by scalar
      */
-    [[nodiscard]] DenseVector operator*(const E scalar) {
+    [[nodiscard]] DenseVector operator*(const E scalar)
+    {
         DenseVector result(*this);
         result *= scalar;
         return result;
@@ -289,7 +280,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param scalar value to divide each element by
      * @return DenseVector with each element divided by scalar
      */
-    [[nodiscard]] DenseVector operator/(const E scalar) {
+    [[nodiscard]] DenseVector operator/(const E scalar)
+    {
         DenseVector result(*this);
         result /= scalar;
         return result;
@@ -304,12 +296,11 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param other to add into DenseVector (element by element)
      * @return *this
      */
-    DenseVector& operator+=(std::span<const E> other) {
+    DenseVector& operator+=(std::span<const E> other)
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector summation");
 
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] += other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] += other[idx]; }
 
         return *this;
     }
@@ -319,12 +310,11 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param other to subtract from DenseVector (element by element)
      * @return *this
      */
-    DenseVector& operator-=(std::span<const E> other) {
+    DenseVector& operator-=(std::span<const E> other)
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector subtraction");
 
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] -= other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] -= other[idx]; }
 
         return *this;
     }
@@ -334,12 +324,11 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param other to multiply with DenseVector (element by element)
      * @return *this
      */
-    DenseVector& operator*=(std::span<const E> other) {
+    DenseVector& operator*=(std::span<const E> other)
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector multiplication");
 
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] *= other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] *= other[idx]; }
 
         return *this;
     }
@@ -349,17 +338,17 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param other to divide from DenseVector (element by element)
      * @return *this
      */
-    DenseVector& operator/=(std::span<const E> other) {
+    DenseVector& operator/=(std::span<const E> other)
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector division");
 
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] /= other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] /= other[idx]; }
         return *this;
     }
 
     // DenseVector - container additions (element by element)
-    [[nodiscard]] DenseVector operator+(std::span<const E> other) const {
+    [[nodiscard]] DenseVector operator+(std::span<const E> other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector addition");
         DenseVector result(*this);
         result += other;
@@ -367,7 +356,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
     }
 
     // DenseVector - container subtraction (element by element)
-    [[nodiscard]] DenseVector operator-(std::span<const E> other) const {
+    [[nodiscard]] DenseVector operator-(std::span<const E> other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector subtraction");
         DenseVector result(*this);
         result -= other;
@@ -375,27 +365,28 @@ class DenseVector : detail::MemStorage<E, Alignment> {
     }
 
     // DenseVector - container multiplication (element by element)
-    [[nodiscard]] DenseVector operator*(std::span<const E> other) const {
+    [[nodiscard]] DenseVector operator*(std::span<const E> other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector multiplication");
         DenseVector result(*this);
         result *= other;
         return result;
     }
     // DenseVector - container division (element by element)
-    [[nodiscard]] DenseVector operator/(std::span<const E> other) const {
+    [[nodiscard]] DenseVector operator/(std::span<const E> other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector division");
         DenseVector result(*this);
         result /= other;
         return result;
     }
 
-    [[nodiscard]] E dot(std::span<const E> other) const {
+    [[nodiscard]] E dot(std::span<const E> other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector dot product");
 
         E sum{};
-        for (size_t idx{0}; idx < size(); ++idx) {
-            sum += data()[idx] * other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { sum += data()[idx] * other[idx]; }
         return sum;
     }
 
@@ -408,12 +399,11 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param Vector to add into DenseVector (element by element)
      * @return *this
      */
-    DenseVector& operator+=(const DenseVector& other) {
+    DenseVector& operator+=(const DenseVector& other)
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector summation");
 
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] += other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] += other[idx]; }
 
         return *this;
     }
@@ -423,12 +413,11 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param Vector to subtract from DenseVector (element by element)
      * @return *this
      */
-    DenseVector& operator-=(const DenseVector& other) {
+    DenseVector& operator-=(const DenseVector& other)
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector subtraction");
 
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] -= other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] -= other[idx]; }
 
         return *this;
     }
@@ -438,12 +427,11 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param Vector to multiply with DenseVector (element by element)
      * @return *this
      */
-    DenseVector& operator*=(const DenseVector& other) {
+    DenseVector& operator*=(const DenseVector& other)
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector multiplication");
 
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] *= other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] *= other[idx]; }
 
         return *this;
     }
@@ -453,17 +441,28 @@ class DenseVector : detail::MemStorage<E, Alignment> {
      * @param Vector to divide from DenseVector (element by element)
      * @return *this
      */
-    DenseVector& operator/=(const DenseVector& other) {
+    DenseVector& operator/=(const DenseVector& other)
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector division");
 
-        for (size_t idx{0}; idx < size(); ++idx) {
-            data()[idx] /= other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { data()[idx] /= other[idx]; }
         return *this;
     }
 
-    // DenseVector - container additions (element
-    [[nodiscard]] DenseVector operator+(const DenseVector& other) const {
+    /**
+     * Adds two DenseVectors of the same size and adds them element by element.
+     * @code
+     * tensile::DenseVector<double> a{1.0, 2.0, 3.0, 4.0};
+     * tensile::DenseVector<double> b{1.0, 2.0, 3.0, 4.0};
+     *
+     * tensile::DenseVector<double> c = a + b; // c = {2.0, 4.0, 6.0, 8.0}
+     * @endcode
+     *
+     * @param other DenseVector of the same size as `this`
+     * @return DenseVector resulting from the element by element summation of `this` and `other`.
+     */
+    [[nodiscard]] DenseVector operator+(const DenseVector& other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector addition");
         DenseVector result(*this);
         result += other;
@@ -471,7 +470,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
     }
 
     // DenseVector - container subtraction
-    [[nodiscard]] DenseVector operator-(const DenseVector& other) const {
+    [[nodiscard]] DenseVector operator-(const DenseVector& other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector subtraction");
         DenseVector result(*this);
         result -= other;
@@ -479,35 +479,35 @@ class DenseVector : detail::MemStorage<E, Alignment> {
     }
 
     // DenseVector - container multiplication
-    [[nodiscard]] DenseVector operator*(const DenseVector& other) const {
+    [[nodiscard]] DenseVector operator*(const DenseVector& other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector multiplication");
         DenseVector result(*this);
         result *= other;
         return result;
     }
 
-    [[nodiscard]] DenseVector operator/(const DenseVector& other) const {
+    [[nodiscard]] DenseVector operator/(const DenseVector& other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector division");
         DenseVector result(*this);
         result /= other;
         return result;
     }
 
-    [[nodiscard]] E dot(const DenseVector& other) const {
+    [[nodiscard]] E dot(const DenseVector& other) const
+    {
         assert(size() == other.size() && "Size mismatch for vector-vector dot product");
 
         E sum{};
-        for (size_t idx{0}; idx < size(); ++idx) {
-            sum += data()[idx] * other[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { sum += data()[idx] * other[idx]; }
         return sum;
     }
 
-    [[nodiscard]] E norm2() const noexcept {
+    [[nodiscard]] E norm2() const noexcept
+    {
         E sqrSum{};
-        for (size_t idx{0}; idx < size(); ++idx) {
-            sqrSum += data()[idx] * data()[idx];
-        }
+        for (size_t idx{0}; idx < size(); ++idx) { sqrSum += data()[idx] * data()[idx]; }
         return std::sqrt(sqrSum);
     }
 };
@@ -523,7 +523,8 @@ class DenseVector : detail::MemStorage<E, Alignment> {
  * @return A new DenseVector containing the exponentiated values
  */
 template <typename E, std::size_t Alignment>
-[[nodiscard]] DenseVector<E, Alignment> pow(const DenseVector<E, Alignment>& vec, const int exponent) {
+[[nodiscard]] DenseVector<E, Alignment> pow(const DenseVector<E, Alignment>& vec, const int exponent)
+{
     DenseVector<E, Alignment> result(vec);
     result.pow(exponent);
     return result;

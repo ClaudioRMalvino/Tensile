@@ -1,6 +1,6 @@
 // This file will handle the element access and converting from N-D to a flat 1D row or column major access
 #pragma once
-#include<cassert>
+#include <cassert>
 #include <concepts>
 #include <cstddef>
 #include <type_traits>
@@ -25,15 +25,15 @@ concept Layout = std::same_as<RowMajor, T> || std::same_as<ColMajor, T>;
  */
 template <Layout L>
 class LayoutDesc {
-private:
+   private:
     size_t rows_{}, cols_{};
 
-public:
+   public:
     // Default constructor
     LayoutDesc() = default;
 
     // Size allocated constructor
-    LayoutDesc(size_t rows, size_t cols) : rows_(rows), cols_(cols) {}
+    LayoutDesc(const size_t rows, const size_t cols) : rows_(rows), cols_(cols) {}
 
     // Returns row size
     [[nodiscard]] size_t rows() const { return rows_; }
@@ -47,7 +47,7 @@ public:
      * @param idx_j : the column index
      * @return
      */
-    [[nodiscard]] constexpr size_t loc(size_t idx_i, size_t idx_j) const {
+    [[nodiscard]] constexpr size_t loc(const size_t idx_i, const size_t idx_j) const {
         assert(idx_i < rows_ && idx_j < cols_);
         if constexpr (std::is_same_v<L, RowMajor>) {
             return idx_i * cols_ + idx_j;

@@ -36,3 +36,20 @@ add_subdirectory(tensile)
 # Link your executable
 add_executable(my_app main.cpp)
 target_link_libraries(my_app PRIVATE tensile::tensile)
+```
+
+When Tensile is added as a subdirectory it only provides the headers: tests, benchmarks and their dependencies
+(Google Test, Google Benchmark) are not downloaded or built. When building Tensile on its own they are enabled by
+default and can be toggled:
+
+| Option                     | Default (top-level / dependency) | Effect                                                       |
+|----------------------------|----------------------------------|--------------------------------------------------------------|
+| `TENSILE_BUILD_TESTS`      | `ON` / `OFF`                     | Build the unit tests                                         |
+| `TENSILE_BUILD_BENCHMARKS` | `ON` / `OFF`                     | Build the benchmarks                                         |
+| `TENSILE_SANITIZERS`       | `address,undefined` / empty      | Sanitizers for tests and benchmarks in Debug builds only     |
+
+```sh
+cmake -S . -B build-debug   -G Ninja -DCMAKE_BUILD_TYPE=Debug     # tests, with sanitizers
+cmake -S . -B build-release -G Ninja -DCMAKE_BUILD_TYPE=Release   # benchmarks
+```
+

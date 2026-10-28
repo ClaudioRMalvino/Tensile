@@ -51,3 +51,5 @@ scrap*
 
 build/
 cmake-build-debug/
+build-*/
+cmake-build-*/
