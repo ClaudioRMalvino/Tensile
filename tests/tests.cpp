@@ -1,8 +1,8 @@
-#include <stdexcept>
 #include <gtest/gtest.h>
+#include <stdexcept>
+#include <tensile.hpp>
 #include <vector>
 
-#include "../include/tensile.hpp"
 
 using tensile::DenseMatrix;
 using tensile::DenseVector;

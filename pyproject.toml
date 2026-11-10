@@ -2,6 +2,26 @@
 name = "tensile"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = [
-    "pybind11>=3.1.0",
-]
+# pybind11 is a build-time tool, not a runtime dependency of the Python module, so it lives in the pixi
+# environment below. When the bindings become an installable package, add a [build-system] here
+# (scikit-build-core drives the existing CMake build) and list pybind11 under its `requires`.
+dependencies = []
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+# Development environment, installed from conda-forge with `pixi install`.
+[tool.pixi.dependencies]
+python = ">=3.12"
+pybind11 = ">=3.0"
+pytest = ">=8"
+cmake = ">=3.20"
+doxygen = "*"
+graphviz = "*"
+
+[tool.pixi.tasks]
+configure = "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug"
+build = { cmd = "cmake --build build", depends-on = ["configure"] }
+test = { cmd = "ctest --test-dir build --output-on-failure", depends-on = ["build"] }
+docs = "doxygen Doxyfile"

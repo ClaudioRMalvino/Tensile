@@ -53,3 +53,8 @@ build/
 cmake-build-debug/
 build-*/
 cmake-build-*/
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+# legacy uv virtual environment
+.venv/

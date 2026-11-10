@@ -1,0 +1,24 @@
+# Doxygen configuration for Tensile. Only settings that differ from Doxygen's defaults are listed.
+# Build with `pixi run docs`, then open build/docs/html/index.html.
+
+PROJECT_NAME           = "Tensile"
+PROJECT_BRIEF          = "Header-only C++23 dense linear algebra"
+
+INPUT                  = include README.md
+RECURSIVE              = YES
+FILE_PATTERNS          = *.hpp *.md
+USE_MDFILE_AS_MAINPAGE = README.md
+
+# docs/ holds hand-written notes, so generated output goes under build/, which is already ignored.
+OUTPUT_DIRECTORY       = build/docs
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+
+# Keep implementation details (MemStorage, LayoutDesc) out of the public reference.
+EXTRACT_PRIVATE        = NO
+EXCLUDE_SYMBOLS        = tensile::detail tensile::detail::*
+
+# Class and include diagrams, drawn by graphviz.
+HAVE_DOT               = YES
+
+WARN_IF_UNDOCUMENTED   = YES
