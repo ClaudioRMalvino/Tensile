@@ -1,6 +1,8 @@
+#include <stdexcept>
 #include <gtest/gtest.h>
-#include <tensile.hpp>
 #include <vector>
+
+#include "../include/tensile.hpp"
 
 using tensile::DenseMatrix;
 using tensile::DenseVector;
@@ -39,6 +41,14 @@ TEST_F(DenseMatrixTest, ListInitializationWorks) {
             ASSERT_EQ((stl_matrix[idx_i][idx_j]), (matrix[idx_i,idx_j]));
         }
     }
+}
+
+TEST_F(DenseMatrixTest, RaggedMatrixThrowsInvalidArgument) {
+    EXPECT_THROW((DenseMatrix<int>{{1,2}, {3}}), std::invalid_argument);
+}
+
+TEST_F(DenseMatrixTest, EmptyFirstRowThrowsInvalidArgument) {
+    EXPECT_THROW((DenseMatrix<int>{{}}), std::invalid_argument);
 }
 
 TEST_F(DenseMatrixTest, SquareConstructorWorks) {

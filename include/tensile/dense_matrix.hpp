@@ -14,6 +14,17 @@
 // Namespace tensile starts here
 namespace tensile {
 
+/**
+ * @brief Element types that `DenseMatrix` can store.
+ *
+ * The type must be trivially copyable and trivially default constructible, because `DenseMatrix` stores its elements
+ * in raw memory and never runs constructors or destructors on them.
+ *
+ * @code
+ * static_assert(tensile::TrivialMatrixElement<float>);         // OK
+ * static_assert(!tensile::TrivialMatrixElement<std::string>);  // not trivially copyable
+ * @endcode
+ */
 template <typename T>
 concept TrivialMatrixElement = std::is_trivially_copyable_v<T> && std::is_trivially_default_constructible_v<T>;
 
@@ -55,63 +66,125 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
 
     using detail::LayoutDesc<Layout>::loc;
 
+    /**
+     * @brief Validates a nested initializer list and returns its column count.
+     *
+     * Called from the list constructor's member initializers, so the list is checked before anything reads
+     * `list.begin()[0]` or allocates storage.
+     *
+     * @param list Rows passed to the list constructor.
+     * @return Length of the first row.
+     * @throws std::invalid_argument If `list` has no rows or its first row is empty.
+     */
+    static size_t checked_cols(std::initializer_list<std::initializer_list<E>> list)
+    {
+        if (list.size() == 0 || list.begin()->size() == 0) {
+            throw std::invalid_argument("DenseMatrix list initialization requires at least one row and one column.");
+        }
+        return list.begin()->size();
+    }
+
    public:
     using detail::MemStorage<E, Alignment>::size;
     using detail::MemStorage<E, Alignment>::data;
     using detail::LayoutDesc<Layout>::rows;
     using detail::LayoutDesc<Layout>::cols;
 
-    // Default constructor
+    /**
+     * @brief Constructs an empty matrix with no allocated buffer.
+     *
+     * @code
+     * tensile::DenseMatrix<double> m;   // m.rows() == 0, m.cols() == 0, m.size() == 0
+     * @endcode
+     */
     DenseMatrix() : detail::MemStorage<E, Alignment>(), detail::LayoutDesc<Layout>()
     {
     }
 
     /**
-     * Size allocation constructor for a matrix of size = sqr_length * sqr_length.
-     * @param sqr_length : const size_t desired length of row and column to construct a square matrix of size =
-     * sqr_length * sq_length.
+     * @brief Allocates a square matrix of `sqr_length * sqr_length` elements without initializing them.
+     *
+     * @warning The elements hold indeterminate values. Write every element before reading it, or use the value
+     * constructor, `zeros()`, `ones()` or `identity()` instead.
+     *
+     * @code
+     * tensile::DenseMatrix<double> m(3);   // 3 rows, 3 columns, contents uninitialized
+     * m.set_to_zeros();                    // now every element is 0.0
+     * @endcode
+     *
+     * @param sqr_length Number of rows and of columns. Must be greater than zero.
      */
     explicit DenseMatrix(const size_t sqr_length)
         : detail::MemStorage<E, Alignment>(sqr_length * sqr_length), detail::LayoutDesc<Layout>(sqr_length, sqr_length)
     { assert(sqr_length > 0); }
 
     /**
-     * Size allocation constructor for rectangular shaped matrix.
-     * @param rows : const size_t number of rows.
-     * @param cols : const size_t number of columns.
+     * @brief Allocates a `rows` by `cols` matrix without initializing its elements.
+     *
+     * @warning The elements hold indeterminate values. Write every element before reading it, or use the value
+     * constructor, `zeros()` or `ones()` instead.
+     *
+     * @code
+     * tensile::DenseMatrix<double> m(2, 3);   // 2 rows, 3 columns, contents uninitialized
+     * for (std::size_t i{}; i < m.rows(); ++i) {
+     *     for (std::size_t j{}; j < m.cols(); ++j) { m[i, j] = 0.0; }
+     * }
+     * @endcode
+     *
+     * @param rows Number of rows. Must be greater than zero.
+     * @param cols Number of columns. Must be greater than zero.
      */
     explicit DenseMatrix(const size_t rows, const size_t cols)
         : detail::MemStorage<E, Alignment>(rows * cols), detail::LayoutDesc<Layout>(rows, cols)
     { assert(rows > 0 && cols > 0); }
 
     /**
-     * Rectangular matrix constructor with elements initialized with `value`.
-     * @param row : const size_t number of rows.
-     * @param col : const size _t number of columns.
-     * @param value : const E value with which to initialize all elements with.
+     * @brief Allocates a `row` by `col` matrix and sets every element to `value`.
+     *
+     * @code
+     * tensile::DenseMatrix<int> m(2, 3, 7);   // [[7, 7, 7],
+     *                                         //  [7, 7, 7]]
+     * @endcode
+     *
+     * @param row Number of rows. Must be greater than zero.
+     * @param col Number of columns. Must be greater than zero.
+     * @param value Value assigned to every element.
      */
     explicit DenseMatrix(const size_t row, const size_t col, const E value)
         : detail::MemStorage<E, Alignment>(row * col), detail::LayoutDesc<Layout>(row, col)
     {
+        assert(row > 0 && col > 0);
         for (size_t idx_i{}; idx_i < row; ++idx_i) {
             for (size_t idx_j{}; idx_j < col; ++idx_j) { data()[loc(idx_i, idx_j)] = value; }
         }
     }
 
     /**
-     * List initialized constructor. Checks and throws an error for ragged matrices.
-     * @param list : brace initialized list for constructing the DenseMatrix.
+     * @brief Constructs a matrix from a nested braced list, one inner list per row.
+     *
+     * The number of inner lists sets `rows()` and the length of the first inner list sets `cols()`. Every row must
+     * have the same length. The values are written in row/column order regardless of `Layout`.
+     *
+     * @code
+     * tensile::DenseMatrix<double> m{{1.0, 2.0, 3.0},
+     *                                {4.0, 5.0, 6.0}};   // 2 rows, 3 columns
+     *
+     * tensile::DenseMatrix<double> bad{{1.0, 2.0},
+     *                                  {3.0}};           // throws std::invalid_argument
+     * @endcode
+     *
+     * @param list Rows of the matrix. Must contain at least one non-empty row.
+     * @throws std::invalid_argument If `list` has no rows, the first row is empty, or the rows do not all have the
+     * same length.
      */
     DenseMatrix(std::initializer_list<std::initializer_list<E>> list)
-        : detail::MemStorage<E, Alignment>(list.size() * list.begin()[0].size()),
-          detail::LayoutDesc<Layout>(list.size(), list.begin()[0].size())
+        : detail::MemStorage<E, Alignment>(list.size() * checked_cols(list)),
+          detail::LayoutDesc<Layout>(list.size(), list.begin()->size())
     {
-        assert(list.size() > 0);
-
         for (size_t idx_i{}; idx_i < rows(); ++idx_i) {
             if (list.begin()[idx_i].size() != cols()) {
-                throw std::invalid_argument("Ragged matrix form. Ensure that all columns are of the same size.");
-            };
+                throw std::invalid_argument("Ragged matrix form. Ensure that all rows are of the same length.");
+            }
 
             for (size_t idx_j{}; idx_j < cols(); ++idx_j) {
                 data()[loc(idx_i, idx_j)] = list.begin()[idx_i].begin()[idx_j];
@@ -120,9 +193,15 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
     }
 
     /**
-     * Static member which initializes a DenseMatrix of size = (rows * cols) with zero valued elements.
-     * @param rows number of rows.
-     * @param cols number of columns.
+     * @brief Creates a `rows` by `cols` matrix with every element set to zero.
+     *
+     * @code
+     * auto m = tensile::DenseMatrix<double>::zeros(2, 2);   // [[0.0, 0.0],
+     *                                                        //  [0.0, 0.0]]
+     * @endcode
+     *
+     * @param rows Number of rows. Must be greater than zero.
+     * @param cols Number of columns. Must be greater than zero.
      * @return DenseMatrix initialized with zeros.
      */
     static DenseMatrix zeros(const size_t rows, const size_t cols)
@@ -132,7 +211,14 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
     }
 
     /**
-     * Sets all elements within the matrix equal to zero.
+     * @brief Sets every element of the matrix to zero in place.
+     *
+     * @code
+     * tensile::DenseMatrix<int> m{{1, 2},
+     *                             {3, 4}};
+     * m.set_to_zeros();   // [[0, 0],
+     *                     //  [0, 0]]
+     * @endcode
      */
     void set_to_zeros()
     {
@@ -142,10 +228,16 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
     }
 
     /**
-     * Static member which initializes a DenseMatrix of size = (rows * cols) with all elements equal to unity.
-     * @param rows number of rows.
-     * @param cols number of columns.
-     * @return DenseMatrix initialized with zeros.
+     * @brief Creates a `rows` by `cols` matrix with every element set to one.
+     *
+     * @code
+     * auto m = tensile::DenseMatrix<int>::ones(2, 3);   // [[1, 1, 1],
+     *                                                    //  [1, 1, 1]]
+     * @endcode
+     *
+     * @param rows Number of rows. Must be greater than zero.
+     * @param cols Number of columns. Must be greater than zero.
+     * @return DenseMatrix initialized with ones.
      */
     static DenseMatrix ones(const size_t rows, const size_t cols)
     {
@@ -154,9 +246,16 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
     }
 
     /**
-     * Static memeber which initializes a square DenseMatrix with the main diagonal elements equal to unity.
-     * @param sq_length the length of the rows and columns for the square matrix of size = sq_length * sq_length.
-     * @return DenseMatrix with the main diagonal initialized with ones.
+     * @brief Creates a square identity matrix: ones on the main diagonal, zeros everywhere else.
+     *
+     * @code
+     * auto m = tensile::DenseMatrix<double>::identity(3);   // [[1.0, 0.0, 0.0],
+     *                                                        //  [0.0, 1.0, 0.0],
+     *                                                        //  [0.0, 0.0, 1.0]]
+     * @endcode
+     *
+     * @param sq_length Number of rows and of columns. Must be greater than zero.
+     * @return Identity DenseMatrix of size `sq_length * sq_length`.
      */
     static DenseMatrix identity(const size_t sq_length)
     {
@@ -175,30 +274,91 @@ class DenseMatrix : detail::MemStorage<E, Alignment>, detail::LayoutDesc<Layout>
         return result;
     }
 
+    /**
+     * @brief Returns a mutable reference to the element at row `idx_i`, column `idx_j`.
+     *
+     * Uses the C++23 multidimensional subscript, so call it as `m[i, j]`. The indices are checked with `assert`
+     * only. In builds that define `NDEBUG` an out-of-range index is undefined behavior.
+     *
+     * @code
+     * tensile::DenseMatrix<double> m{{1.0, 2.0},
+     *                                {3.0, 4.0}};
+     * m[0, 1] = 9.0;   // [[1.0, 9.0],
+     *                  //  [3.0, 4.0]]
+     * @endcode
+     *
+     * @param idx_i Row index. Must be less than `rows()`.
+     * @param idx_j Column index. Must be less than `cols()`.
+     * @return Reference to the element at `(idx_i, idx_j)`.
+     */
     [[nodiscard]] E& operator[](const size_t idx_i, const size_t idx_j) noexcept
     { return data()[loc(idx_i, idx_j)]; }
+
+    /**
+     * @brief Returns a read-only reference to the element at row `idx_i`, column `idx_j`.
+     *
+     * Uses the C++23 multidimensional subscript, so call it as `m[i, j]`. The indices are checked with `assert`
+     * only. In builds that define `NDEBUG` an out-of-range index is undefined behavior.
+     *
+     * @code
+     * const tensile::DenseMatrix<double> m{{1.0, 2.0},
+     *                                      {3.0, 4.0}};
+     * double x = m[1, 0];   // x == 3.0
+     * @endcode
+     *
+     * @param idx_i Row index. Must be less than `rows()`.
+     * @param idx_j Column index. Must be less than `cols()`.
+     * @return Const reference to the element at `(idx_i, idx_j)`.
+     */
     [[nodiscard]] const E& operator[](const size_t idx_i, const size_t idx_j) const noexcept
     { return data()[loc(idx_i, idx_j)]; }
+
+    /**
+     * @brief Returns a tag object for the matrix's storage order.
+     *
+     * Useful for choosing an algorithm at compile time based on whether the buffer is row major or column major.
+     *
+     * @code
+     * using Mat = tensile::DenseMatrix<double, tensile::ColMajor>;
+     * static_assert(std::is_same_v<decltype(Mat::layout()), tensile::ColMajor>);
+     * @endcode
+     *
+     * @return A default-constructed `Layout` (`RowMajor{}` or `ColMajor{}`).
+     */
     [[nodiscard]]
     static constexpr Layout layout() noexcept
     { return {}; }
 
     /**
-     * @brief Stream insertion opeator for printing the DenseMatrix
-     * @param os The output stream
-     * @param mat The DenseMatrix to print
-     * @return A reference to the output stream for chaining
+     * @brief Stream insertion operator for printing the DenseMatrix.
+     *
+     * Each row is printed on its own line, wrapped in brackets, with rows separated by commas. No newline follows
+     * the closing bracket. An empty matrix prints as `[]`.
+     *
+     * @code
+     * tensile::DenseMatrix<int> m{{1, 2},
+     *                             {3, 4}};
+     * std::cout << m;
+     * // prints:
+     * // [[1, 2],
+     * //  [3, 4]]
+     * @endcode
+     *
+     * @param os The output stream.
+     * @param mat The DenseMatrix to print.
+     * @return A reference to the output stream for chaining.
      */
     friend std::ostream& operator<<(std::ostream& os, const DenseMatrix& mat)
     {
         os << "[";
         for (std::size_t idx_i{}; idx_i < mat.rows(); ++idx_i) {
+            if (idx_i > 0) { os << ",\n "; }
             os << "[";
             for (std::size_t idx_j{}; idx_j < mat.cols(); ++idx_j) {
                 os << mat[idx_i, idx_j];
                 if (idx_j < mat.cols() - 1) { os << ", "; }
             }
-            os << "]" << '\n';
+            os << "]";
         }
         os << "]";
         return os;
